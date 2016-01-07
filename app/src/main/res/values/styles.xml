@@ -8,4 +8,29 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Container">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="Container.MainBackground">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="Container.DarkBackground">
+        <item name="android:background">@color/colorAccent</item>
+    </style>
+
+    <style name="Container.Formatted">
+        <item name="android:background">@color/white</item>
+        <item name="android:padding">@dimen/list_item_card_view_child_relative_layout_padding</item>
+    </style>
+
 </resources>

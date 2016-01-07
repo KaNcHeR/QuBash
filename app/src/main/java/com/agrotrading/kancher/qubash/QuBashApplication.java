@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.raizlabs.android.dbflow.config.FlowManager;
 
-public class DBFlowTaskApplication extends Application {
+public class QuBashApplication extends Application {
 
     @Override
     public void onCreate() {
