@@ -1,6 +1,8 @@
-package com.agrotrading.kancher.qubash;
+package com.agrotrading.kancher.qubash.ui;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
@@ -10,7 +12,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
+import com.agrotrading.kancher.qubash.R;
 import com.agrotrading.kancher.qubash.adapters.QuotesAdapter;
 import com.agrotrading.kancher.qubash.database.models.Quote;
 import com.agrotrading.kancher.qubash.rest.RestService;
@@ -21,6 +25,7 @@ import com.agrotrading.kancher.qubash.utils.NetworkStatusChecker;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.UiThread;
@@ -29,16 +34,25 @@ import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit.RetrofitError;
+
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     public FragmentManager fragmentManager;
+    public RecyclerView.OnScrollListener scrollStateChangedListener, scrolledListener;
 
     @ViewById(R.id.swipe_container)
     SwipeRefreshLayout swipeRefreshLayout;
 
+    @ViewById(R.id.main_content)
+    CoordinatorLayout coordinatorLayout;
+
     @ViewById(R.id.rv_quotes)
     RecyclerView quotesRecyclerView;
+
+    @ViewById(R.id.fab)
+    FloatingActionButton floatingActionButton;
 
     @Bean
     QuotesAdapter quotesAdapter;
@@ -52,33 +66,53 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     @AfterViews
     void ready() {
         fragmentManager = getSupportFragmentManager();
+
         swipeRefreshLayout.setOnRefreshListener(this);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         quotesRecyclerView.setLayoutManager(linearLayoutManager);
-        quotesRecyclerView.addOnScrollListener(getListener());
 
+        scrollStateChangedListener = getScrollStateChangedListener();
+        scrolledListener = getScrolledListener();
+        quotesRecyclerView.addOnScrollListener(scrollStateChangedListener);
+        quotesRecyclerView.addOnScrollListener(scrolledListener);
+
+    }
+
+    @Click(R.id.fab)
+    void scrollToTop() {
+        quotesRecyclerView.smoothScrollToPosition(0);
     }
 
     @Override
     public void onRefresh() {
-
         request();
     }
+
     @Background
     void animation() {
         swipeRefreshLayout.setRefreshing(true);
     }
+
     @Background
     void request() {
 
         if(!NetworkStatusChecker.isNetworkAvailable(getApplicationContext())) {
-            noConnection();
+            showSnackbar(getString(R.string.network_not_available));
             return;
         }
 
+        ArrayList<BashModel> quotes;
+
         RestService restService = new RestService();
-        ArrayList<BashModel> quotes = restService.getQuotes();
+        try {
+            quotes = restService.getQuotes();
+        } catch (RetrofitError e) {
+            showSnackbar(getString(R.string.retrofit_error));
+            return;
+        }
+
         ArrayList<Quote> notExists = new ArrayList<>();
 
         for(BashModel quote : quotes) {
@@ -94,32 +128,20 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         }
 
         if(notExists.size() == 0) {
-            noNewQuotes();
+            showSnackbar(getString(R.string.not_new_quotes));
             return;
         }
 
         quotesAdapter.addItemsStart(notExists);
-        refresh(notExists.size());
-
-    }
-
-    @UiThread
-    void noConnection() {
-        swipeRefreshLayout.setRefreshing(false);
-        Snackbar.make(swipeRefreshLayout, getString(R.string.network_not_available), Snackbar.LENGTH_SHORT).show();
-    }
-
-    @UiThread
-    void noNewQuotes() {
-        swipeRefreshLayout.setRefreshing(false);
-        Snackbar.make(swipeRefreshLayout, getString(R.string.not_new_quotes), Snackbar.LENGTH_SHORT).show();
-    }
-
-    @UiThread
-    void refresh(int quantityQuotes) {
-        swipeRefreshLayout.setRefreshing(false);
-        Snackbar.make(swipeRefreshLayout, getString(R.string.new_quotes, quantityQuotes), Snackbar.LENGTH_SHORT).show();
+        showSnackbar(getString(R.string.new_quotes, notExists.size()));
         notifyInserted();
+
+    }
+
+    @UiThread
+    void showSnackbar(String message) {
+        swipeRefreshLayout.setRefreshing(false);
+        Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_SHORT).show();
     }
 
     @UiThread
@@ -131,16 +153,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public void onResume() {
         super.onResume();
         loadData(0, quantityQuotes);
-        if(autoRequest) {
-            swipeRefreshLayout.post(new Runnable() {
-                @Override
-                public void run() {
-                    swipeRefreshLayout.setRefreshing(true);
-                }
-            });
-            onRefresh();
-            autoRequest = false;
-        }
     }
 
 
@@ -162,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             public void onLoadFinished(Loader<List<Quote>> loader, List<Quote> data) {
 
                 if (data.size() == 0 && offset != 0) {
-                    quotesRecyclerView.clearOnScrollListeners();
+                    quotesRecyclerView.removeOnScrollListener(scrollStateChangedListener);
                     return;
                 }
 
@@ -174,35 +186,52 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 }
 
                 notifyInserted();
+
+                if(autoRequest) {
+                    swipeRefreshLayout.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            swipeRefreshLayout.setRefreshing(true);
+                        }
+                    });
+                    onRefresh();
+                    autoRequest = false;
+                }
             }
 
             @Override
             public void onLoaderReset(Loader<List<Quote>> loader) {
-
             }
         });
     }
 
-    private RecyclerView.OnScrollListener getListener() {
-
+    private RecyclerView.OnScrollListener getScrollStateChangedListener() {
         return new RecyclerView.OnScrollListener() {
-
+            int positionLast;
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if(newState == 0) {
-                    int positionLast = recyclerView.getLayoutManager()
-                            .getPosition(
-                                    recyclerView.getChildAt(
-                                            recyclerView.getChildCount() - 1
-                                    )
-                            );
-                    if(positionLast > quotesAdapter.getItemCount() - 5) {
-                        loadData(quotesAdapter.getItemCount(), 10);
+                    positionLast = recyclerView.getChildAdapterPosition(recyclerView.getChildAt(recyclerView.getChildCount() - 1));
+                    if(positionLast + 1 > quotesAdapter.getItemCount() - ConstantManager.QUANTITY_ITEMS_TO_LOAD ) {
+                        loadData(quotesAdapter.getItemCount(), ConstantManager.QUANTITY_OF_SUBSEQUENT_ITEMS);
                     }
                 }
             }
         };
     }
 
+    private RecyclerView.OnScrollListener getScrolledListener() {
+        return new RecyclerView.OnScrollListener() {
+            int positionFirst;
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                positionFirst = recyclerView.getChildAdapterPosition(recyclerView.getChildAt(0));
+                if(positionFirst == 0 && floatingActionButton.getVisibility() == View.VISIBLE) {
+                    floatingActionButton.hide();
+                }
+            }
+        };
+    }
 }

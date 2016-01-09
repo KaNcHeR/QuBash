@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 
 import com.agrotrading.kancher.qubash.ViewWrapper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class RecyclerViewAdapterBase<T, V extends View> extends RecyclerView.Adapter<ViewWrapper<V>> {
@@ -28,10 +27,6 @@ public abstract class RecyclerViewAdapterBase<T, V extends View> extends Recycle
     public RecyclerViewAdapterBase setItems(List<T> items) {
         this.items = items;
         return this;
-    }
-
-    public void addItem(T item) {
-        items.add(item);
     }
 
     public void addItemsStart(List<T> items) {

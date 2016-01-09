@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">QuBash</string>
     <string name="network_not_available">Отсутствует подключение к сети :(</string>
+    <string name="retrofit_error">Неизвестная ошибка, попробуйте снова :(</string>
     <string name="not_new_quotes">У нас пока нет новых цитат :)</string>
     <string name="new_quotes">Для Вас %d новых цитат :)</string>
+    <string name="logo_description">funny_horse</string>
+    <string name="site_name">bash.im</string>
 </resources>
