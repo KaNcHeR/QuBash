@@ -36,6 +36,8 @@ import java.util.List;
 
 import retrofit.RetrofitError;
 
+/*В этой ветке будут всяческие исправления, т.к. я забыл создать ветку с самого начала*/
+
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
