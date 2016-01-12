@@ -18,6 +18,9 @@ public class Quote extends BaseModel {
     @Column
     String html;
 
+    @Column
+    boolean favorites;
+
 
     public static List<Quote> getAllQuotes(int offset, int count) {
 
@@ -51,4 +54,11 @@ public class Quote extends BaseModel {
         this.html = html;
     }
 
+    public boolean isFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(boolean favorites) {
+        this.favorites = favorites;
+    }
 }
