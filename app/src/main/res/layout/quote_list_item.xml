@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/CardView.Own"
     android:id="@+id/card_view">
 
@@ -12,19 +13,36 @@
         android:paddingRight="@dimen/card_view_paddingHorizontal"
         android:paddingTop="@dimen/card_view_paddingTop"
         android:paddingBottom="@dimen/card_view_paddingBottom"
-        android:gravity="center_vertical|start">
+        android:gravity="center_vertical|start"
+        android:focusable="true">
 
         <TextView
             style="@style/TextViewInCard"
-            android:id="@+id/id_text"
-            android:textColor="@color/id_text_color"
-            android:layout_marginBottom="@dimen/card_id_text_margin_bottom"/>
+            android:id="@+id/text_id"
+            android:textColor="@color/id_text_color"/>
 
         <TextView
             style="@style/TextViewInCard"
-            android:id="@+id/html_text"
-            android:layout_below="@+id/id_text"
+            android:id="@+id/text_html"
+            android:layout_below="@+id/text_id"
             android:textColor="@color/html_text_color"/>
+
+        <Button
+            android:id="@+id/button_favorites"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_favorites_height"
+            android:minWidth="@dimen/button_favorites_min_width"
+            android:layout_below="@+id/text_html"
+            android:layout_marginTop="@dimen/button_favorites_margin_top"
+            android:paddingLeft="@dimen/button_favorites_padding_left"
+            android:paddingStart="@dimen/button_favorites_padding_left"
+            android:paddingRight="@dimen/button_favorites_padding_right"
+            android:paddingEnd="@dimen/button_favorites_padding_right"
+            android:text="@string/add_to_favorites"
+            android:background="@drawable/button_favorites"
+            android:stateListAnimator="@null"
+            android:textColor="@color/colorPrimaryDark"
+            tools:ignore="UnusedAttribute" />
 
     </RelativeLayout>
 

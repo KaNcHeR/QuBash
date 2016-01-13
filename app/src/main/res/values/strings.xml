@@ -6,4 +6,5 @@
     <string name="new_quotes">Для Вас %d новых цитат :)</string>
     <string name="logo_description">funny_horse</string>
     <string name="site_name">bash.im</string>
+    <string name="add_to_favorites">В ИЗБРАННОЕ</string>
 </resources>

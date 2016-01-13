@@ -28,6 +28,9 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">roboto medium</item>
         <item name="android:textSize">@dimen/card_text_view_size</item>
+        <item name="android:paddingLeft">@dimen/card_view_paddingHorizontal</item>
+        <item name="android:paddingRight">@dimen/card_view_paddingHorizontal</item>
+        <item name="android:layout_marginBottom">@dimen/card_id_text_margin_bottom</item>
     </style>
 
 </resources>

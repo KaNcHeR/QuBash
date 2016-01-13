@@ -11,4 +11,9 @@
 
     <color name="id_text_color">#736E65</color>
     <color name="html_text_color">#211F1D</color>
+
+    <color name="button_favorites">#FFF3E0</color>
+    <color name="button_favorites_pressed">#D6CFC4</color>
+    <color name="button_favorites_focused">#F3E8D7</color>
+
 </resources>

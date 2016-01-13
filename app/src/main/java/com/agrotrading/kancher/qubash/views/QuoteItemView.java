@@ -15,10 +15,10 @@ import org.androidannotations.annotations.ViewById;
 @EViewGroup(R.layout.quote_list_item)
 public class QuoteItemView extends RelativeLayout {
 
-    @ViewById(R.id.id_text)
+    @ViewById(R.id.text_id)
     TextView idText;
 
-    @ViewById(R.id.html_text)
+    @ViewById(R.id.text_html)
     TextView htmlText;
 
     public QuoteItemView(Context context) {

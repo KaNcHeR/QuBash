@@ -10,9 +10,16 @@
     <dimen name="card_view_marginVertical">4dp</dimen>
     <dimen name="card_view_marginHorizontal">8dp</dimen>
 
-    <dimen name="card_view_paddingHorizontal">16dp</dimen>
+    <dimen name="card_view_paddingHorizontal">8dp</dimen>
     <dimen name="card_view_paddingTop">16dp</dimen>
-    <dimen name="card_view_paddingBottom">24dp</dimen>
+    <dimen name="card_view_paddingBottom">8dp</dimen>
     <dimen name="card_text_view_size">14sp</dimen>
     <dimen name="card_id_text_margin_bottom">16dp</dimen>
+
+    <dimen name="button_favorites_min_width">64dp</dimen>
+    <dimen name="button_favorites_height">36dp</dimen>
+    <dimen name="button_favorites_margin_top">8dp</dimen>
+    <dimen name="button_favorites_padding_left">8dp</dimen>
+    <dimen name="button_favorites_padding_right">8dp</dimen>
+
 </resources>
