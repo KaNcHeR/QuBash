@@ -22,4 +22,6 @@
     <dimen name="button_favorites_padding_left">8dp</dimen>
     <dimen name="button_favorites_padding_right">8dp</dimen>
 
+    <dimen name="appbar_padding_top">8dp</dimen>
+
 </resources>

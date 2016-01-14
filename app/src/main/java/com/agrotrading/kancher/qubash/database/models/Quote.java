@@ -7,6 +7,7 @@ import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
+import java.util.Date;
 import java.util.List;
 
 @Table(database = QuBashDatabase.class)
@@ -21,6 +22,8 @@ public class Quote extends BaseModel {
     @Column
     boolean favorites;
 
+    @Column
+    long timeStamp;
 
     public static List<Quote> getAllQuotes(int offset, int count) {
 
@@ -32,13 +35,31 @@ public class Quote extends BaseModel {
                 .queryList();
     }
 
-    public static void deleteQuote(long id) {
-         SQLite.delete(Quote.class)
-                 .where(Quote_Table.id.eq(id))
-                 .query();
+    public static List<Quote> getAllFavoriteQuotes(int offset, int count) {
+
+        return SQLite.select()
+                .from(Quote.class)
+                .where(Quote_Table.favorites.is(true))
+                .orderBy(Quote_Table.timeStamp, false)
+                .offset(offset)
+                .limit(count)
+                .queryList();
     }
 
-    public String getId() {
+    public static void addToFavorites(long id) {
+        SQLite.update(Quote.class)
+                .set(
+                        Quote_Table.favorites.eq(true),
+                        Quote_Table.timeStamp.eq(new Date().getTime())
+                )
+                .where(Quote_Table.id.is(id)).query();
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getStringId() {
         return Long.toString(id);
     }
 

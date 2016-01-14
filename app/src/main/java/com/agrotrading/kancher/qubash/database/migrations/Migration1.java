@@ -22,5 +22,6 @@ public class Migration1 extends AlterTableMigration<Quote> {
     public void onPreMigrate() {
         super.onPreMigrate();
         addColumn(SQLiteType.get(boolean.class.getName()), Quote_Table.favorites.toString());
+        addColumn(SQLiteType.get(long.class.getName()), Quote_Table.timeStamp.toString());
     }
 }

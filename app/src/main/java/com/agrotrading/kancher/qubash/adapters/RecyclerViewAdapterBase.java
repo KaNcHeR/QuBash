@@ -42,4 +42,13 @@ public abstract class RecyclerViewAdapterBase<T, V extends View> extends Recycle
         return this;
     }
 
+    public void addItem(T item) {
+        items.add(0, item);
+        notifyDataSetChanged();
+    }
+
+    public void setItem(int position, T item) {
+        items.set(position, item);
+    }
+
 }

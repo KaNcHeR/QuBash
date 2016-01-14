@@ -1,7 +1,5 @@
 package com.agrotrading.kancher.qubash.adapters;
 
-
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
@@ -11,19 +9,15 @@ import com.agrotrading.kancher.qubash.views.QuoteItemView;
 import com.agrotrading.kancher.qubash.views.QuoteItemView_;
 
 import org.androidannotations.annotations.EBean;
-import org.androidannotations.annotations.RootContext;
 
 @EBean
 public class QuotesAdapter extends RecyclerViewAdapterBase<Quote, QuoteItemView> {
 
-    @RootContext
-    Context context;
-
     @Override
     public void onBindViewHolder(ViewWrapper<QuoteItemView> holder, int position) {
         QuoteItemView view = holder.getView();
-        Quote quotes = items.get(position);
-        view.bind(quotes);
+        Quote quote = items.get(position);
+        view.bind(quote, position);
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.agrotrading.kancher.qubash.ui;
 
 import android.support.v7.app.AppCompatActivity;
 
-import com.agrotrading.kancher.qubash.ui.MainActivity_;
 import com.agrotrading.kancher.qubash.R;
 
 import org.androidannotations.annotations.AfterViews;
