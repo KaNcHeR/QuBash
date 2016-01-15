@@ -29,4 +29,18 @@ public class QuotesAdapter extends RecyclerViewAdapterBase<Quote, QuoteItemView>
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
+
+    public int findItem(long id) {
+
+        int position = -1;
+
+        for(int i = 0; i < items.size(); i++) {
+            if(items.get(i).getId() == id) {
+                position = i;
+                break;
+            }
+        }
+
+        return position;
+    }
 }
