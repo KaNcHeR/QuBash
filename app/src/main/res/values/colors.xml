@@ -17,4 +17,6 @@
     <color name="button_favorites_focused">#F3E8D7</color>
     <color name="button_favorites_text_disabled">#BDB4A6</color>
 
+    <color name="tabs_background">#FFA726</color>
+
 </resources>

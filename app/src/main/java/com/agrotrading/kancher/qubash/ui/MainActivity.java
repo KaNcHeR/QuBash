@@ -13,6 +13,7 @@ import com.agrotrading.kancher.qubash.utils.ConstantManager;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_main)
@@ -28,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
     @ViewById(R.id.tabs)
     TabLayout tabLayout;
 
+    @InstanceState
+    boolean helpFragmentManager = false;
+
     @AfterViews
     void ready() {
 
@@ -35,8 +39,14 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
         tabLayout.setupWithViewPager(mViewPager);
 
-        allQuotesFragment = (AllQuotesFragment_) getCurrentPagerFragment(ConstantManager.POSITION_FRAGMENT_ALL_QUOTES);
-        favoriteQuotesFragment = (FavoriteQuotesFragment_) getCurrentPagerFragment(ConstantManager.POSITION_FRAGMENT_FAVORITE_QUOTES);
+        if(!helpFragmentManager) {
+            allQuotesFragment = (AllQuotesFragment_) mSectionsPagerAdapter.getItem(ConstantManager.POSITION_FRAGMENT_ALL_QUOTES);
+            favoriteQuotesFragment = (FavoriteQuotesFragment_) mSectionsPagerAdapter.getItem(ConstantManager.POSITION_FRAGMENT_FAVORITE_QUOTES);
+            helpFragmentManager = true;
+        } else {
+            allQuotesFragment = (AllQuotesFragment_) getCurrentPagerFragment(ConstantManager.POSITION_FRAGMENT_ALL_QUOTES);
+            favoriteQuotesFragment = (FavoriteQuotesFragment_) getCurrentPagerFragment(ConstantManager.POSITION_FRAGMENT_FAVORITE_QUOTES);
+        }
 
     }
 
