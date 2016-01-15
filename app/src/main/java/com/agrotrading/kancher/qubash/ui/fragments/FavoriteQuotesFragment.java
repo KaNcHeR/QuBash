@@ -83,6 +83,10 @@ public class FavoriteQuotesFragment extends Fragment {
         quotesFavoriteAdapter.addItem(quote);
     }
 
+    public void deleteQuote(int position) {
+        quotesFavoriteAdapter.deleteItem(position);
+    }
+
     private void loadData(final int offset, final int count){
         getLoaderManager().restartLoader(0, null, new LoaderManager.LoaderCallbacks<List<Quote>>() {
             @Override

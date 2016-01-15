@@ -10,4 +10,5 @@
     <string name="favorite_quotes">ИЗБРАННОЕ</string>
     <string name="add_to_favorites">В ИЗБРАННОЕ</string>
     <string name="already_in_favorites">В ИЗБРАННОМ</string>
+    <string name="delete_from_favorites">УДАЛИТЬ</string>
 </resources>

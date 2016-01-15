@@ -17,7 +17,7 @@ public class QuotesFavoriteAdapter extends RecyclerViewAdapterBase<Quote, QuoteF
     public void onBindViewHolder(ViewWrapper<QuoteFavoriteIemView> holder, int position) {
         QuoteFavoriteIemView view = holder.getView();
         Quote quote = items.get(position);
-        view.bind(quote);
+        view.bind(quote, position);
     }
 
     @Override

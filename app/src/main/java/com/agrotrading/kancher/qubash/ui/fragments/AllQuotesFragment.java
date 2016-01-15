@@ -99,6 +99,12 @@ public class AllQuotesFragment extends Fragment implements SwipeRefreshLayout.On
         quotesAdapter.setItem(position, quote);
     }
 
+    public void updateView(Quote quote) {
+        int position = quotesAdapter.findItem(quote);
+        quote.setFavorites(false);
+        changeAdapter(quote, position);
+    }
+
     @Background
     void animation() {
         swipeRefreshLayout.setRefreshing(true);

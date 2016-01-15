@@ -46,7 +46,17 @@ public class Quote extends BaseModel {
                 .queryList();
     }
 
+    public static void removeFromFavorites(long id) {
+
+        SQLite.update(Quote.class)
+                .set(Quote_Table.favorites.eq(false))
+                .where(Quote_Table.id.is(id))
+                .query();
+
+    }
+
     public static void addToFavorites(long id) {
+
         SQLite.update(Quote.class)
                 .set(
                         Quote_Table.favorites.eq(true),

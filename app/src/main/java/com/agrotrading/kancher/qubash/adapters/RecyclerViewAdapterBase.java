@@ -47,8 +47,18 @@ public abstract class RecyclerViewAdapterBase<T, V extends View> extends Recycle
         notifyDataSetChanged();
     }
 
+    public void deleteItem(int position) {
+        items.remove(position);
+        notifyDataSetChanged();
+    }
+
+    public int findItem(T item) {
+        return items.indexOf(item);
+    }
+
     public void setItem(int position, T item) {
         items.set(position, item);
+        notifyDataSetChanged();
     }
 
 }
